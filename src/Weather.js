@@ -1,62 +1,85 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import "./Weather.css";
 
 export default function Weather() {
-  return (
-    <div className="Weather">
-      <div className="weather-wrapper">
-        <div className="app-wrapper">
-          <div className="row mb-2">
-            <div className="col-9">
-              <input
-                type="text"
-                placeholder="Enter Your City"
-                id="search"
-                className="search"
-              />
+  const [weatherData, setWeatherData] = useState({ loaded: false });
+  function handleResponse(response) {
+    setWeatherData({
+      loaded: true,
+      temperature: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      wind: response.data.wind.speed,
+      name: response.data.name,
+      description: response.data.weather[0].description,
+      date: "Wednesday 07:00",
+      iconUrl: "https://ssl.gstatic.com/onebox/weather/64/sunny.png",
+    });
+  }
+
+  if (weatherData.loaded) {
+    return (
+      <div className="Weather">
+        <div className="weather-wrapper">
+          <div className="app-wrapper">
+            <div className="row mb-2">
+              <div className="col-9">
+                <input
+                  type="text"
+                  placeholder="Enter Your City"
+                  id="search"
+                  className="search"
+                />
+              </div>
+              <div className="col-3">
+                <input
+                  type="submit"
+                  className="submit"
+                  id="submit"
+                  placeholder="Search"
+                />
+              </div>
             </div>
-            <div className="col-3">
-              <input
-                type="submit"
-                className="submit"
-                id="submit"
-                placeholder="Search"
-              />
+            <div id="cityName" className="city-name text-center">
+              {weatherData.name}
+            </div>
+            <div className="date text-center">{weatherData.date}</div>
+            <br />
+            <hr />
+            <div className="flex-container temp-details justify-content-around">
+              <div className="temp">{Math.round(weatherData.temperature)}</div>
+              <div>
+                <img src={weatherData.iconUrl} className="icon"></img>
+                <span className="text-capitalize looks-like">
+                  {weatherData.description}
+                </span>
+              </div>
+            </div>
+            <div className="details text-center">
+              <div>Humidity: {weatherData.humidity}%</div>
+              <div>Wind Speed: {Math.round(weatherData.wind)} km/h</div>
             </div>
           </div>
-          <div id="cityName" className="city-name text-center">
-            Paris
-          </div>
-          <div className="date text-center">August 30, 2022</div>
-          <br />
-          <hr />
-          <div className="flex-container temp-details justify-content-around">
-            <div className="temp">17°</div>
-            <div>
-              <img
-                src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
-                className="icon"
-              ></img>
-              <span className="looks-like text-center">Clear Sky</span>
-            </div>
-          </div>
-          <div className="details text-center">
-            <div>Precipitation</div>
-            <div>Humidity</div>
-            <div>Wind</div>
-          </div>
+          <footer className="footer">
+            This project is created by Emily Mahler and is{" "}
+            <a
+              href="https://github.com/stradless05/my-react-weather-app"
+              target="_blank"
+              rel="noreferrer"
+            >
+              open-sourced on GitHub
+            </a>
+          </footer>
         </div>
-        <footer className="footer">
-          This project is created by Emily Mahler and is{" "}
-          <a
-            href="https://github.com/stradless05/my-react-weather-app"
-            target="_blank"
-            rel="noreferrer"
-          >
-            open-sourced on GitHub
-          </a>
-        </footer>
       </div>
-    </div>
-  );
+    );
+  } else {
+    let apiKey = "5f091c27ecd3875fabda53b65ecd4358";
+    let units = "metric";
+    let city = "Paris";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`;
+    axios.get(apiUrl).then(handleResponse);
+
+    return "Loading....";
+  }
 }
