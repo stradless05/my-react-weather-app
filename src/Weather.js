@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import WeatherInfo from "./WeatherInfo";
+import WeatherForecast from "./WeatherForecast";
 import "./Weather.css";
 
 export default function Weather(props) {
@@ -63,6 +64,7 @@ export default function Weather(props) {
               </div>
             </form>
             <WeatherInfo data={weatherData} />
+            <WeatherForecast />
           </div>
           <footer className="footer">
             This project is created by Emily Mahler and is{" "}
