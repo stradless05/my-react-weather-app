@@ -3,6 +3,7 @@ import Weather from "./Weather";
 import "./App.css";
 
 export default function App() {
+  console.log("wooow");
   return (
     <div className="App">
       <div className="container">
