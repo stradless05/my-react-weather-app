@@ -3,11 +3,11 @@
 }
 
 .WeatherForecast-day {
-    margin-top: 8px;
+    margin-top: 30px;
     margin-bottom: 5px;
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .WeatherForecast-temperature {
-    font-size: 20px;
+    font-size: 15px;
 }
