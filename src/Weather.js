@@ -39,7 +39,6 @@ export default function Weather(props) {
   }
 
   if (weatherData.loaded) {
-    console.log("hiiii");
     return (
       <div className="Weather">
         <div className="weather-wrapper">
